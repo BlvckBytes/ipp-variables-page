@@ -1,0 +1,10 @@
+<ul class="languages">
+  <li
+    *ngFor="let language of languages$ | async"
+    class="language"
+    [class.language--selected]="language.selected"
+    (click)="selectLanguage(language)"
+  >
+    {{language.displayName}}
+  </li>
+</ul>

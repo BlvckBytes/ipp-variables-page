@@ -1,0 +1,50 @@
+<p class="title">Variablen</p>
+
+<app-language-picker
+  (selectedLanguage)="selectedLanguage($event)"
+></app-language-picker>
+
+<input class="search" type="text" #query placeholder="Suche" (input)="onSearch()" />
+
+<div class="variables">
+  @for (variable of (variables$ | async); track variable.displayName) {
+    <div class="variable">
+      <p [class.highlighted-searchable]="variable.displayName.highlighted">{{ variable.displayName.content }}</p>
+
+      <div class="variable-section">
+        <h3>Materialien:</h3>
+        <div class="variable_materials">
+          <ul>
+            @for (material of variable.materialDisplayNames; track material.content) {
+              <li [class.highlighted-searchable]="material.highlighted">{{ material.content }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+
+      @if (variable.inheritedMaterialDisplayNames.length > 0) {
+        <div class="variable-section">
+          <h3>Erbt von:</h3>
+          <div class="variable_parents">
+            <ul>
+              @for (parent of variable.parentDisplayNames; track parent.content) {
+                <li [class.highlighted-searchable]="parent.highlighted">{{ parent.content }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <div class="variable-section">
+          <h3>Geerbte Materialien:</h3>
+          <div class="variable_inherited_materials">
+            <ul>
+              @for (material of variable.inheritedMaterialDisplayNames; track material.content) {
+                <li [class.highlighted-searchable]="material.highlighted">{{ material.content }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
