@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LanguagePicker } from './components/language-picker/language-picker';
 import { Language } from './language.model';
 import { VariablesApiService } from './variables-api.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 import { Variable } from './variable.model';
 import { Searchable } from './searchable.interface';
 
@@ -54,24 +54,40 @@ export class App {
       let matchedKeywords: string[] = [];
       let searchables = this.getSearchables(variable);
 
+      var mismatchLengths: { [key: string]: number } = {};
+
       for (let searchable of searchables) {
         searchable.highlighted = false;
 
         for (var keyword of keywords) {
-          if (searchable.content.toLowerCase().indexOf(keyword) >= 0) {
-            searchable.highlighted = true;
+          var lowerContent = searchable.content.toLowerCase();
 
-            if (!matchedKeywords.includes(keyword))
-              matchedKeywords.push(keyword);
-          }
+          if (lowerContent.indexOf(keyword) < 0)
+            continue;
+
+          if (!(lowerContent in mismatchLengths))
+            mismatchLengths[lowerContent] = lowerContent.length;
+
+          mismatchLengths[lowerContent] = Math.max(0, mismatchLengths[lowerContent] - keyword.length);
+
+          searchable.highlighted = true;
+
+          if (!matchedKeywords.includes(keyword))
+            matchedKeywords.push(keyword);
         }
       }
 
       let remainingKeywords = keywords.filter(k => !matchedKeywords.includes(k));
 
-      if (remainingKeywords.length === 0)
-        filtered.push(variable);
+      if (remainingKeywords.length !== 0)
+        continue;
+
+      filtered.push(variable);
+      (variable as any)._mismatchLength = Object.values(mismatchLengths).reduce((a, b) => Math.min(a, b), Number.MAX_SAFE_INTEGER);
     }
+
+    // Try to offer most relevant results first
+    filtered.sort((a, b) => (a as any)._mismatchLength - (b as any)._mismatchLength);
 
     this.variables$.next(filtered);
   }
