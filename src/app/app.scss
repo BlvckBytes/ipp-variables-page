@@ -1,6 +1,3 @@
-$orange: rgb(231, 162, 34);
-$purple: rgb(190, 68, 190);
-$green: rgb(62, 195, 84);
 
 :host {
   display: flex;
@@ -20,7 +17,7 @@ $green: rgb(62, 195, 84);
 
 .title {
   font-size: 2rem;
-  color: $orange;
+  color: var(--main-color);
   font-weight: bold;
   margin-bottom: -.4rem;
 }
@@ -85,14 +82,14 @@ $green: rgb(62, 195, 84);
   }
 
   &_materials li {
-    background: $orange;
+    background: var(--main-color);
   }
 
   &_inherited_materials li, &_parents li {
-    background: $purple;
+    background: var(--inherited-color);
   }
 }
 
 .highlighted-searchable {
-  background: $green !important;
+  background: var(--search-color) !important;
 }
