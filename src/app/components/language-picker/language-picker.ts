@@ -24,7 +24,8 @@ export class LanguagePicker implements OnInit {
       for (let i = 0; i < langs.length; i++) {
         var lang = langs[i];
 
-        lang.selected = lastSelectedLanguage === null ? i === 0 : langs[i].enumName === lastSelectedLanguage;
+        if (lastSelectedLanguage !== null)
+          lang.selected = langs[i].enumName === lastSelectedLanguage;
 
         if (lang.selected)
           this.selectedLanguage.emit(lang);
