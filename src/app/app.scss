@@ -73,6 +73,10 @@
     gap: .2rem;
   }
 
+  a, a:visited, a:hover, a:active {
+    color: inherit;
+  }
+
   li {
     list-style: none;
     padding: .1rem .2rem;

@@ -32,6 +32,14 @@ export class App {
     });
   }
 
+  sanitizeDisplayName(displayName: string): string {
+    return displayName
+      .replace(/[%,]/g, '')
+      .replace(/-/g, '_')
+      .replace(/\s+/g, '_')
+      .toLowerCase();
+  }
+
   private getSearchables(variable: Variable): Searchable[] {
     return [variable.displayName, ...variable.materialDisplayNames, ...variable.inheritedMaterialDisplayNames, ...variable.parentDisplayNames];
   }
