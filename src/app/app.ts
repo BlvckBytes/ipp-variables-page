@@ -94,8 +94,17 @@ export class App {
       (variable as any)._mismatchLength = Object.values(mismatchLengths).reduce((a, b) => Math.min(a, b), Number.MAX_SAFE_INTEGER);
     }
 
-    // Try to offer most relevant results first
-    filtered.sort((a, b) => (a as any)._mismatchLength - (b as any)._mismatchLength);
+    // Try to offer most relevant results first and make sure to keep matches against
+    // the variable's display-name (i.e. the whole card) at the very top.
+    filtered.sort((a, b) => {
+      if (a.displayName.highlighted && !b.displayName.highlighted)
+        return -1;
+
+      if (!a.displayName.highlighted && b.displayName.highlighted)
+        return 1;
+
+      return (a as any)._mismatchLength - (b as any)._mismatchLength
+    });
 
     this.variables$.next(filtered);
   }
