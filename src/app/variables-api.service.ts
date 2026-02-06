@@ -38,6 +38,7 @@ export class VariablesApiService {
         return body.map((variable: any) => ({
           displayName: this.mapToSearchable(variable.displayName),
           materialDisplayNames: this.mapToSearchables(variable.materialDisplayNames),
+          blockedMaterialDisplayNames: variable.blockedMaterialDisplayNames,
           inheritedMaterialDisplayNames: this.mapToSearchables(variable.inheritedMaterialDisplayNames),
           parentDisplayNames: this.mapToSearchables(variable.parentDisplayNames)
         }));

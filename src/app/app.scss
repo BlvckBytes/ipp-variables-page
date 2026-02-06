@@ -89,6 +89,10 @@
     background: var(--main-color);
   }
 
+  &_materials--blocked li {
+    background: var(--blocked-color);
+  }
+
   &_inherited_materials li, &_parents li {
     background: var(--inherited-color);
   }

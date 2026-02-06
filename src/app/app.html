@@ -40,6 +40,17 @@
           </div>
         </div>
 
+        @if (variable.blockedMaterialDisplayNames.length > 0) {
+          <h3>Nicht vererbt:</h3>
+          <div class="variable_materials variable_materials--blocked">
+            <ul>
+              @for (material of variable.blockedMaterialDisplayNames; track material) {
+                <li>{{ material }}</li>
+              }
+            </ul>
+          </div>
+        }
+
         <div class="variable-section">
           <h3>Geerbte Materialien:</h3>
           <div class="variable_inherited_materials">
